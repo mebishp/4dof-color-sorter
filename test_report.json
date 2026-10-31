@@ -1,0 +1,24 @@
+{
+  "suite": "e2e",
+  "timestamp": "2026-10-27T17:25:42Z",
+  "total_duration_sec": 0.051,
+  "all_passed": true,
+  "summary": {
+    "total": 1,
+    "passed": 1,
+    "failed": 0,
+    "skipped": 0
+  },
+  "tests": [
+    {
+      "passed": true,
+      "skipped": false,
+      "duration_sec": 0.051,
+      "stdout": "",
+      "stderr": "...\n----------------------------------------------------------------------\nRan 3 tests in 0.004s\n\nOK\n",
+      "returncode": 0,
+      "name": "End-to-End Sorting Policy & CSV Metrics",
+      "script": "test_sorting_e2e.py"
+    }
+  ]
+}

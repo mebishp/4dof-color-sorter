@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# C/C++ build artifacts
+*.so
+*.o
+*.a
+
+# ROS 2 build outputs
+build/
+install/
+log/
+
+# IDE / editor
+.vscode/
+.idea/
+*.swp

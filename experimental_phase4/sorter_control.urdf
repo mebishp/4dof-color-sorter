@@ -1,0 +1,560 @@
+<?xml version="1.0"?>
+<robot name="sorter_robot">
+
+  <!-- ========================================================================= -->
+  <!-- 1. World & Ground Foundation                                              -->
+  <!-- ========================================================================= -->
+  <link name="world"/>
+
+  <!-- Workshop Floor Platform -->
+  <joint name="world_to_floor" type="fixed">
+    <parent link="world"/>
+    <child link="floor_link"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <link name="floor_link">
+    <visual>
+      <origin xyz="0 0 -0.005" rpy="0 0 0"/>
+      <geometry>
+        <box size="3.2 2.6 0.01"/>
+      </geometry>
+      <material name="floor_slate">
+        <color rgba="0.18 0.20 0.24 1.0"/>
+      </material>
+    </visual>
+    <!-- Safety Zone Yellow/Black Hatching Border -->
+    <visual>
+      <origin xyz="0 0 0.001" rpy="0 0 0"/>
+      <geometry>
+        <box size="2.4 1.9 0.002"/>
+      </geometry>
+      <material name="safety_yellow">
+        <color rgba="0.85 0.70 0.10 0.8"/>
+      </material>
+    </visual>
+  </link>
+
+  <!-- ========================================================================= -->
+  <!-- 2. Industrial Work Table with 4 Legs                                      -->
+  <!-- ========================================================================= -->
+  <joint name="world_to_table" type="fixed">
+    <parent link="world"/>
+    <child link="table_link"/>
+    <origin xyz="0 0 0.40" rpy="0 0 0"/>
+  </joint>
+
+  <link name="table_link">
+    <!-- Main Tabletop Slab (2.0m x 1.5m x 0.10m, surface at Z = 0.45m) -->
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="2.0 1.5 0.10"/>
+      </geometry>
+      <material name="wood_worktop">
+        <color rgba="0.52 0.38 0.24 1.0"/>
+      </material>
+    </visual>
+    <!-- Steel Protective Table Rim -->
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="2.04 1.54 0.08"/>
+      </geometry>
+      <material name="rim_steel">
+        <color rgba="0.30 0.32 0.35 1.0"/>
+      </material>
+    </visual>
+    <!-- Table Leg 1: Front-Right (+X, -Y) -->
+    <visual>
+      <origin xyz="0.90 -0.65 -0.20" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.04" length="0.40"/>
+      </geometry>
+      <material name="leg_steel">
+        <color rgba="0.22 0.24 0.26 1.0"/>
+      </material>
+    </visual>
+    <!-- Table Leg 2: Front-Left (-X, -Y) -->
+    <visual>
+      <origin xyz="-0.90 -0.65 -0.20" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.04" length="0.40"/>
+      </geometry>
+      <material name="leg_steel"/>
+    </visual>
+    <!-- Table Leg 3: Back-Right (+X, +Y) -->
+    <visual>
+      <origin xyz="0.90 0.65 -0.20" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.04" length="0.40"/>
+      </geometry>
+      <material name="leg_steel"/>
+    </visual>
+    <!-- Table Leg 4: Back-Left (-X, +Y) -->
+    <visual>
+      <origin xyz="-0.90 0.65 -0.20" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.04" length="0.40"/>
+      </geometry>
+      <material name="leg_steel"/>
+    </visual>
+  </link>
+
+  <!-- ========================================================================= -->
+  <!-- 3. Dedicated Side Sorting Bays (Red, Yellow on Left; Green, Blue on Right)-->
+  <!-- ========================================================================= -->
+
+  <!-- Left Side Bay - Slot 1: Red Sorting Bin at (-0.58, -0.14, 0.452) -->
+  <joint name="table_to_red_bin" type="fixed">
+    <parent link="world"/>
+    <child link="red_bin_link"/>
+    <origin xyz="-0.58 -0.14 0.452" rpy="0 0 0"/>
+  </joint>
+
+  <link name="red_bin_link">
+    <!-- Tray Bottom -->
+    <visual>
+      <origin xyz="0 0 0.004" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.32 0.26 0.008"/>
+      </geometry>
+      <material name="bin_red">
+        <color rgba="0.90 0.15 0.15 0.95"/>
+      </material>
+    </visual>
+    <!-- North Wall -->
+    <visual>
+      <origin xyz="0 0.125 0.02" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.32 0.015 0.035"/>
+      </geometry>
+      <material name="bin_red_dark">
+        <color rgba="0.65 0.10 0.10 1.0"/>
+      </material>
+    </visual>
+    <!-- South Wall -->
+    <visual>
+      <origin xyz="0 -0.125 0.02" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.32 0.015 0.035"/>
+      </geometry>
+      <material name="bin_red_dark"/>
+    </visual>
+    <!-- West Wall -->
+    <visual>
+      <origin xyz="-0.155 0 0.02" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.015 0.235 0.035"/>
+      </geometry>
+      <material name="bin_red_dark"/>
+    </visual>
+    <!-- East Wall -->
+    <visual>
+      <origin xyz="0.155 0 0.02" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.015 0.235 0.035"/>
+      </geometry>
+      <material name="bin_red_dark"/>
+    </visual>
+  </link>
+
+  <!-- Left Side Bay - Slot 2: Yellow Sorting Bin at (-0.58, -0.42, 0.452) -->
+  <joint name="table_to_yellow_bin" type="fixed">
+    <parent link="world"/>
+    <child link="yellow_bin_link"/>
+    <origin xyz="-0.58 -0.42 0.452" rpy="0 0 0"/>
+  </joint>
+
+  <link name="yellow_bin_link">
+    <!-- Tray Bottom -->
+    <visual>
+      <origin xyz="0 0 0.004" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.32 0.26 0.008"/>
+      </geometry>
+      <material name="bin_yellow">
+        <color rgba="0.95 0.85 0.05 0.95"/>
+      </material>
+    </visual>
+    <!-- North Wall -->
+    <visual>
+      <origin xyz="0 0.125 0.02" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.32 0.015 0.035"/>
+      </geometry>
+      <material name="bin_yellow_dark">
+        <color rgba="0.70 0.60 0.05 1.0"/>
+      </material>
+    </visual>
+    <!-- South Wall -->
+    <visual>
+      <origin xyz="0 -0.125 0.02" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.32 0.015 0.035"/>
+      </geometry>
+      <material name="bin_yellow_dark"/>
+    </visual>
+    <!-- West Wall -->
+    <visual>
+      <origin xyz="-0.155 0 0.02" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.015 0.235 0.035"/>
+      </geometry>
+      <material name="bin_yellow_dark"/>
+    </visual>
+    <!-- East Wall -->
+    <visual>
+      <origin xyz="0.155 0 0.02" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.015 0.235 0.035"/>
+      </geometry>
+      <material name="bin_yellow_dark"/>
+    </visual>
+  </link>
+
+  <!-- Right Side Bay - Slot 3: Green Sorting Bin at (+0.58, -0.14, 0.452) -->
+  <joint name="table_to_green_bin" type="fixed">
+    <parent link="world"/>
+    <child link="green_bin_link"/>
+    <origin xyz="0.58 -0.14 0.452" rpy="0 0 0"/>
+  </joint>
+
+  <link name="green_bin_link">
+    <!-- Tray Bottom -->
+    <visual>
+      <origin xyz="0 0 0.004" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.32 0.26 0.008"/>
+      </geometry>
+      <material name="bin_green">
+        <color rgba="0.12 0.85 0.18 0.95"/>
+      </material>
+    </visual>
+    <!-- North Wall -->
+    <visual>
+      <origin xyz="0 0.125 0.02" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.32 0.015 0.035"/>
+      </geometry>
+      <material name="bin_green_dark">
+        <color rgba="0.08 0.60 0.12 1.0"/>
+      </material>
+    </visual>
+    <!-- South Wall -->
+    <visual>
+      <origin xyz="0 -0.125 0.02" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.32 0.015 0.035"/>
+      </geometry>
+      <material name="bin_green_dark"/>
+    </visual>
+    <!-- West Wall -->
+    <visual>
+      <origin xyz="-0.155 0 0.02" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.015 0.235 0.035"/>
+      </geometry>
+      <material name="bin_green_dark"/>
+    </visual>
+    <!-- East Wall -->
+    <visual>
+      <origin xyz="0.155 0 0.02" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.015 0.235 0.035"/>
+      </geometry>
+      <material name="bin_green_dark"/>
+    </visual>
+  </link>
+
+  <!-- Right Side Bay - Slot 4: Blue Sorting Bin at (+0.58, -0.42, 0.452) -->
+  <joint name="table_to_blue_bin" type="fixed">
+    <parent link="world"/>
+    <child link="blue_bin_link"/>
+    <origin xyz="0.58 -0.42 0.452" rpy="0 0 0"/>
+  </joint>
+
+  <link name="blue_bin_link">
+    <!-- Tray Bottom -->
+    <visual>
+      <origin xyz="0 0 0.004" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.32 0.26 0.008"/>
+      </geometry>
+      <material name="bin_blue">
+        <color rgba="0.15 0.35 0.95 0.95"/>
+      </material>
+    </visual>
+    <!-- North Wall -->
+    <visual>
+      <origin xyz="0 0.125 0.02" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.32 0.015 0.035"/>
+      </geometry>
+      <material name="bin_blue_dark">
+        <color rgba="0.10 0.22 0.70 1.0"/>
+      </material>
+    </visual>
+    <!-- South Wall -->
+    <visual>
+      <origin xyz="0 -0.125 0.02" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.32 0.015 0.035"/>
+      </geometry>
+      <material name="bin_blue_dark"/>
+    </visual>
+    <!-- West Wall -->
+    <visual>
+      <origin xyz="-0.155 0 0.02" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.015 0.235 0.035"/>
+      </geometry>
+      <material name="bin_blue_dark"/>
+    </visual>
+    <!-- East Wall -->
+    <visual>
+      <origin xyz="0.155 0 0.02" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.015 0.235 0.035"/>
+      </geometry>
+      <material name="bin_blue_dark"/>
+    </visual>
+  </link>
+
+  <!-- ========================================================================= -->
+  <!-- 4. 4-DOF Articulated Robot Arm & Electromagnet                            -->
+  <!-- ========================================================================= -->
+
+  <!-- Mounting Joint to World/Table -->
+  <joint name="world_to_base" type="fixed">
+    <parent link="world"/>
+    <child link="base_link"/>
+    <origin xyz="0 -0.55 0.45" rpy="0 0 0"/>
+  </joint>
+
+  <!-- Base Pedestal -->
+  <link name="base_link">
+    <!-- Mounting Flange -->
+    <visual>
+      <origin xyz="0 0 0.01" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.13" length="0.02"/>
+      </geometry>
+      <material name="dark_pedestal">
+        <color rgba="0.12 0.12 0.14 1.0"/>
+      </material>
+    </visual>
+    <!-- Main Pedestal Column -->
+    <visual>
+      <origin xyz="0 0 0.08" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.105" length="0.14"/>
+      </geometry>
+      <material name="dark_pedestal"/>
+    </visual>
+  </link>
+
+  <!-- Joint 1: Waist Yaw (rotates about Z) -->
+  <joint name="joint_1" type="revolute">
+    <parent link="base_link"/>
+    <child link="shoulder_link"/>
+    <origin xyz="0 0 0.15" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-3.14159" upper="3.14159" effort="100" velocity="3.0"/>
+  </joint>
+
+  <link name="shoulder_link">
+    <!-- Rotating Turret Base -->
+    <visual>
+      <origin xyz="0 0 0.025" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.088" length="0.09"/>
+      </geometry>
+      <material name="titanium">
+        <color rgba="0.48 0.50 0.54 1.0"/>
+      </material>
+    </visual>
+    <!-- Shoulder Support Bracket -->
+    <visual>
+      <origin xyz="0 0 0.05" rpy="1.5708 0 0"/>
+      <geometry>
+        <cylinder radius="0.05" length="0.09"/>
+      </geometry>
+      <material name="dark_accent">
+        <color rgba="0.25 0.26 0.30 1.0"/>
+      </material>
+    </visual>
+  </link>
+
+  <!-- Joint 2: Shoulder Pitch (rotates about Y) -->
+  <joint name="joint_2" type="revolute">
+    <parent link="shoulder_link"/>
+    <child link="upper_arm_link"/>
+    <origin xyz="0 0 0.05" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-1.57" upper="3.14" effort="300" velocity="2.5"/>
+  </joint>
+
+  <link name="upper_arm_link">
+    <!-- Shoulder Knuckle Cap -->
+    <visual>
+      <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+      <geometry>
+        <cylinder radius="0.06" length="0.09"/>
+      </geometry>
+      <material name="dark_accent"/>
+    </visual>
+    <!-- Main Upper Arm Cylinder (L2 = 0.45m) -->
+    <visual>
+      <origin xyz="0 0 0.225" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.042" length="0.45"/>
+      </geometry>
+      <material name="industrial_orange">
+        <color rgba="0.96 0.48 0.04 1.0"/>
+      </material>
+    </visual>
+    <!-- Accent Ring -->
+    <visual>
+      <origin xyz="0 0 0.225" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.046" length="0.06"/>
+      </geometry>
+      <material name="dark_accent"/>
+    </visual>
+    <!-- Elbow Joint Knuckle -->
+    <visual>
+      <origin xyz="0 0 0.45" rpy="1.5708 0 0"/>
+      <geometry>
+        <cylinder radius="0.052" length="0.08"/>
+      </geometry>
+      <material name="dark_accent"/>
+    </visual>
+  </link>
+
+  <!-- Joint 3: Elbow Pitch (rotates about Y) -->
+  <joint name="joint_3" type="revolute">
+    <parent link="upper_arm_link"/>
+    <child link="forearm_link"/>
+    <origin xyz="0 0 0.45" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-3.14" upper="3.14" effort="200" velocity="2.5"/>
+  </joint>
+
+  <link name="forearm_link">
+    <!-- Main Forearm Cylinder (L3 = 0.42m) -->
+    <visual>
+      <origin xyz="0 0 0.21" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.036" length="0.42"/>
+      </geometry>
+      <material name="titanium"/>
+    </visual>
+    <!-- Industrial Orange Center Accent -->
+    <visual>
+      <origin xyz="0 0 0.21" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.040" length="0.08"/>
+      </geometry>
+      <material name="industrial_orange"/>
+    </visual>
+    <!-- Wrist Joint Knuckle -->
+    <visual>
+      <origin xyz="0 0 0.42" rpy="1.5708 0 0"/>
+      <geometry>
+        <cylinder radius="0.042" length="0.07"/>
+      </geometry>
+      <material name="dark_accent"/>
+    </visual>
+  </link>
+
+  <!-- Joint 4: Wrist Pitch (rotates about Y) -->
+  <joint name="joint_4" type="revolute">
+    <parent link="forearm_link"/>
+    <child link="electromagnet_link"/>
+    <origin xyz="0 0 0.42" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-3.14" upper="3.14" effort="50" velocity="3.0"/>
+  </joint>
+
+  <link name="electromagnet_link">
+    <!-- Tool Extension Stem -->
+    <visual>
+      <origin xyz="0 0 0.035" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.026" length="0.07"/>
+      </geometry>
+      <material name="dark_accent"/>
+    </visual>
+    <!-- Electromagnet Heavy Coil Cylinder -->
+    <visual>
+      <origin xyz="0 0 0.09" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.050" length="0.04"/>
+      </geometry>
+      <material name="electromagnet_black">
+        <color rgba="0.12 0.12 0.14 1.0"/>
+      </material>
+    </visual>
+    <!-- Steel Magnetic Contact Faceplate -->
+    <visual>
+      <origin xyz="0 0 0.115" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.046" length="0.01"/>
+      </geometry>
+      <material name="polished_steel">
+        <color rgba="0.88 0.90 0.94 1.0"/>
+      </material>
+    </visual>
+  </link>
+  <!-- Magnetic tool grasp frame (matches SDF magnetic_tool_link, 0.18m below wrist axis) -->
+  <joint name="magnet_tool_joint" type="fixed">
+    <parent link="electromagnet_link"/>
+    <child link="magnetic_tool_link"/>
+    <origin xyz="0 0 0.18" rpy="0 0 0"/>
+  </joint>
+
+  <link name="magnetic_tool_link"/>
+
+  <!-- ros2_control hardware: Gazebo Ignition system, position command interface.
+       Consumed by the ign_ros2_control Gazebo plugin (see sorter.sdf.template)
+       together with /root/ros_ws/config/controllers.yaml. -->
+  <ros2_control name="IgnitionSystem" type="system">
+    <hardware>
+      <plugin>ign_ros2_control/IgnitionSystem</plugin>
+    </hardware>
+    <joint name="joint_1">
+      <command_interface name="position">
+        <param name="min">-3.14159</param>
+        <param name="max">3.14159</param>
+      </command_interface>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="joint_2">
+      <command_interface name="position">
+        <param name="min">-1.57</param>
+        <param name="max">3.14</param>
+      </command_interface>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="joint_3">
+      <command_interface name="position">
+        <param name="min">-3.14</param>
+        <param name="max">3.14</param>
+      </command_interface>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="joint_4">
+      <command_interface name="position">
+        <param name="min">-3.14</param>
+        <param name="max">3.14</param>
+      </command_interface>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+  </ros2_control>
+
+</robot>

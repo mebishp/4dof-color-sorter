@@ -1,0 +1,176 @@
+<?xml version="1.0" ?>
+<sdf version="1.8">
+  <world name="test_robot">
+    <physics name="1ms" type="ignored">
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+    </physics>
+    <plugin filename="ignition-gazebo-physics-system" name="ignition::gazebo::systems::Physics"/>
+    <plugin filename="ignition-gazebo-scene-broadcaster-system" name="ignition::gazebo::systems::SceneBroadcaster"/>
+    <plugin filename="ignition-gazebo-user-commands-system" name="ignition::gazebo::systems::UserCommands"/>
+
+    <model name="ground_plane">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision"><geometry><plane><normal>0 0 1</normal><size>10 10</size></plane></geometry></collision>
+        <visual name="visual"><geometry><plane><normal>0 0 1</normal><size>10 10</size></plane></geometry></visual>
+      </link>
+    </model>
+
+    <!-- 4-DOF Articulated Arm with Electromagnet -->
+    <model name="sorter_robot">
+      <pose>0 0 0 0 0 0</pose>
+
+      <!-- Base Pedestal (fixed to ground) -->
+      <link name="base_link">
+        <inertial>
+          <mass>10.0</mass>
+          <inertia><ixx>0.1</ixx><ixy>0</ixy><ixz>0</ixz><iyy>0.1</iyy><iyz>0</iyz><izz>0.1</izz></inertia>
+        </inertial>
+        <visual name="pedestal_vis">
+          <pose>0 0 0.075 0 0 0</pose>
+          <geometry><cylinder><radius>0.10</radius><length>0.15</length></cylinder></geometry>
+          <material><ambient>0.2 0.2 0.25 1</ambient><diffuse>0.2 0.2 0.25 1</diffuse></material>
+        </visual>
+        <collision name="pedestal_col">
+          <pose>0 0 0.075 0 0 0</pose>
+          <geometry><cylinder><radius>0.10</radius><length>0.15</length></cylinder></geometry>
+        </collision>
+      </link>
+
+      <joint name="world_fixed" type="fixed">
+        <parent>world</parent>
+        <child>base_link</child>
+      </joint>
+
+      <!-- Shoulder Turret (Yaw) -->
+      <link name="shoulder_link">
+        <pose>0 0 0.15 0 0 0</pose>
+        <inertial>
+          <mass>2.0</mass>
+          <inertia><ixx>0.008</ixx><ixy>0</ixy><ixz>0</ixz><iyy>0.008</iyy><iyz>0</iyz><izz>0.008</izz></inertia>
+        </inertial>
+        <visual name="shoulder_vis">
+          <pose>0 0 0.025 0 0 0</pose>
+          <geometry><cylinder><radius>0.08</radius><length>0.08</length></cylinder></geometry>
+          <material><ambient>0.4 0.4 0.45 1</ambient><diffuse>0.4 0.4 0.45 1</diffuse></material>
+        </visual>
+      </link>
+
+      <joint name="joint_1" type="revolute">
+        <parent>base_link</parent>
+        <child>shoulder_link</child>
+        <axis>
+          <xyz>0 0 1</xyz>
+          <limit><lower>-3.14159</lower><upper>3.14159</upper></limit>
+          <dynamics><damping>1.0</damping></dynamics>
+        </axis>
+      </joint>
+
+      <!-- Upper Arm (Pitch, L2 = 0.45m) -->
+      <link name="upper_arm_link">
+        <pose>0 0 0.20 0 0 0</pose>
+        <inertial>
+          <pose>0 0 0.225 0 0 0</pose>
+          <mass>1.5</mass>
+          <inertia><ixx>0.026</ixx><ixy>0</ixy><ixz>0</ixz><iyy>0.026</iyy><iyz>0</iyz><izz>0.002</izz></inertia>
+        </inertial>
+        <visual name="upper_arm_vis">
+          <pose>0 0 0.225 0 0 0</pose>
+          <geometry><cylinder><radius>0.04</radius><length>0.45</length></cylinder></geometry>
+          <material><ambient>0.85 0.45 0.05 1</ambient><diffuse>0.85 0.45 0.05 1</diffuse></material>
+        </visual>
+      </link>
+
+      <joint name="joint_2" type="revolute">
+        <pose>0 0 0 0 0 0</pose>
+        <parent>shoulder_link</parent>
+        <child>upper_arm_link</child>
+        <axis>
+          <xyz>0 1 0</xyz>
+          <limit><lower>-1.57</lower><upper>2.5</upper></limit>
+          <dynamics><damping>2.0</damping></dynamics>
+        </axis>
+      </joint>
+
+      <!-- Forearm (Pitch, L3 = 0.42m) -->
+      <link name="forearm_link">
+        <pose>0 0 0.65 0 0 0</pose>
+        <inertial>
+          <pose>0 0 0.21 0 0 0</pose>
+          <mass>1.0</mass>
+          <inertia><ixx>0.015</ixx><ixy>0</ixy><ixz>0</ixz><iyy>0.015</iyy><iyz>0</iyz><izz>0.001</izz></inertia>
+        </inertial>
+        <visual name="forearm_vis">
+          <pose>0 0 0.21 0 0 0</pose>
+          <geometry><cylinder><radius>0.035</radius><length>0.42</length></cylinder></geometry>
+          <material><ambient>0.4 0.4 0.45 1</ambient><diffuse>0.4 0.4 0.45 1</diffuse></material>
+        </visual>
+      </link>
+
+      <joint name="joint_3" type="revolute">
+        <pose>0 0 0 0 0 0</pose>
+        <parent>upper_arm_link</parent>
+        <child>forearm_link</child>
+        <axis>
+          <xyz>0 1 0</xyz>
+          <limit><lower>-2.8</lower><upper>1.57</upper></limit>
+          <dynamics><damping>1.5</damping></dynamics>
+        </axis>
+      </joint>
+
+      <!-- Wrist Tool & Electromagnet (Pitch, L4 = 0.12m) -->
+      <link name="electromagnet_link">
+        <pose>0 0 1.07 0 0 0</pose>
+        <inertial>
+          <pose>0 0 0.06 0 0 0</pose>
+          <mass>0.4</mass>
+          <inertia><ixx>0.001</ixx><ixy>0</ixy><ixz>0</ixz><iyy>0.001</iyy><iyz>0</iyz><izz>0.0005</izz></inertia>
+        </inertial>
+        <visual name="wrist_vis">
+          <pose>0 0 0.04 0 0 0</pose>
+          <geometry><cylinder><radius>0.03</radius><length>0.08</length></cylinder></geometry>
+          <material><ambient>0.2 0.2 0.2 1</ambient><diffuse>0.2 0.2 0.2 1</diffuse></material>
+        </visual>
+        <visual name="magnet_vis">
+          <pose>0 0 0.10 0 0 0</pose>
+          <geometry><cylinder><radius>0.045</radius><length>0.04</length></cylinder></geometry>
+          <material><ambient>0.8 0.1 0.1 1</ambient><diffuse>0.8 0.1 0.1 1</diffuse></material>
+        </visual>
+      </link>
+
+      <joint name="joint_4" type="revolute">
+        <pose>0 0 0 0 0 0</pose>
+        <parent>forearm_link</parent>
+        <child>electromagnet_link</child>
+        <axis>
+          <xyz>0 1 0</xyz>
+          <limit><lower>-3.14</lower><upper>3.14</upper></limit>
+          <dynamics><damping>0.5</damping></dynamics>
+        </axis>
+      </joint>
+
+      <!-- Joint Position Controllers -->
+      <plugin filename="ignition-gazebo-joint-position-controller-system" name="gz::sim::systems::JointPositionController">
+        <joint_name>joint_1</joint_name>
+        <topic>/model/sorter_robot/joint/joint_1/cmd_pos</topic>
+        <p_gain>300</p_gain><i_gain>5</i_gain><d_gain>20</d_gain>
+      </plugin>
+      <plugin filename="ignition-gazebo-joint-position-controller-system" name="gz::sim::systems::JointPositionController">
+        <joint_name>joint_2</joint_name>
+        <topic>/model/sorter_robot/joint/joint_2/cmd_pos</topic>
+        <p_gain>800</p_gain><i_gain>20</i_gain><d_gain>40</d_gain>
+      </plugin>
+      <plugin filename="ignition-gazebo-joint-position-controller-system" name="gz::sim::systems::JointPositionController">
+        <joint_name>joint_3</joint_name>
+        <topic>/model/sorter_robot/joint/joint_3/cmd_pos</topic>
+        <p_gain>400</p_gain><i_gain>10</i_gain><d_gain>20</d_gain>
+      </plugin>
+      <plugin filename="ignition-gazebo-joint-position-controller-system" name="gz::sim::systems::JointPositionController">
+        <joint_name>joint_4</joint_name>
+        <topic>/model/sorter_robot/joint/joint_4/cmd_pos</topic>
+        <p_gain>150</p_gain><i_gain>5</i_gain><d_gain>10</d_gain>
+      </plugin>
+    </model>
+  </world>
+</sdf>

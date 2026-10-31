@@ -1,0 +1,198 @@
+Panels:
+  - Class: rviz_common/Displays
+    Help Height: 78
+    Name: Displays
+    Property Tree Widget:
+      Expanded:
+        - /Global Options1
+        - /Status1
+        - /RobotModel1
+        - /Grid1
+        - /Detections3D1
+        - /Perspective3DCamera1
+        - /FrontCamera1
+        - /CameraImage1
+        - /DebugImage1
+      Splitter Ratio: 0.5
+    Tree Height: 600
+Visualization Manager:
+  Class: ""
+  Displays:
+    - Alpha: 1.0
+      Class: rviz_default_plugins/RobotModel
+      Collision Enabled: false
+      Description File: ""
+      Description Source: Topic
+      Description Topic:
+        Depth: 5
+        Durability Policy: Transient Local
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /robot_description
+      Enabled: true
+      Name: RobotModel
+      TF Prefix: ""
+      Update Interval: 0
+      Value: true
+      Visual Enabled: true
+    - Alpha: 0.35
+      Cell Size: 0.25
+      Class: rviz_default_plugins/Grid
+      Color: 140; 140; 150
+      Enabled: true
+      Line Style:
+        Line Width: 0.02
+        Value: Lines
+      Name: FloorGrid
+      Normal Cell Count: 0
+      Offset:
+        X: 0
+        Y: 0
+        Z: 0.0
+      Plane: XY
+      Plane Cell Count: 16
+      Reference Frame: world
+      Value: true
+    - Class: rviz_default_plugins/MarkerArray
+      Enabled: true
+      Name: Detections3D
+      Namespaces:
+        detections: true
+        labels: true
+        environment: true
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /detections
+      Value: true
+    - Class: rviz_default_plugins/Image
+      Enabled: true
+      Max Value: 1
+      Median window: 5
+      Min Value: 0
+      Name: Perspective3DCamera
+      Normalize Range: false
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Best Effort
+        Value: /camera/perspective/image_raw
+      Value: true
+    - Class: rviz_default_plugins/Image
+      Enabled: true
+      Max Value: 1
+      Median window: 5
+      Min Value: 0
+      Name: FrontCamera
+      Normalize Range: false
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Best Effort
+        Value: /camera/front/image_raw
+      Value: true
+    - Class: rviz_default_plugins/Image
+      Enabled: true
+      Max Value: 1
+      Median window: 5
+      Min Value: 0
+      Name: OverheadCamera
+      Normalize Range: false
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Best Effort
+        Value: /camera/image_raw
+      Value: true
+    - Class: rviz_default_plugins/Image
+      Enabled: true
+      Max Value: 1
+      Median window: 5
+      Min Value: 0
+      Name: DebugImage
+      Normalize Range: false
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Best Effort
+        Value: /detections/debug
+      Value: true
+    - Class: rviz_default_plugins/TF
+      Enabled: false
+      Frame Timeout: 15
+      Frames:
+        All Enabled: false
+      Marker Scale: 0.15
+      Name: TF
+      Show Arrows: true
+      Show Axes: true
+      Show Names: true
+      Tree:
+        world:
+          {}
+      Update Interval: 0
+      Value: false
+  Enabled: true
+  Global Options:
+    Background Color: 38; 40; 46
+    Fixed Frame: world
+    Frame Rate: 30
+  Name: root
+  Tools:
+    - Class: rviz_default_plugins/Interact
+      Hide Inactive Objects: true
+    - Class: rviz_default_plugins/MoveCamera
+    - Class: rviz_default_plugins/Select
+    - Class: rviz_default_plugins/FocusCamera
+  Transformation:
+    Current:
+      Class: rviz_default_plugins/TF
+  Value: true
+  Views:
+    Current:
+      Class: rviz_default_plugins/Orbit
+      Distance: 2.2
+      Focal Point:
+        X: 0.0
+        Y: -0.15
+        Z: 0.45
+      Focal Shape Size: 0.05
+      Name: Current View
+      Near Clip Distance: 0.01
+      Pitch: 0.75
+      Target Frame: world
+      Value: Orbit (rviz_default_plugins)
+      Yaw: 1.5708
+    Saved:
+      - Class: rviz_default_plugins/Orbit
+        Distance: 2.2
+        Focal Point:
+          X: 0.0
+          Y: -0.15
+          Z: 0.45
+        Focal Shape Size: 0.05
+        Name: "Top-Down (Matches Camera)"
+        Near Clip Distance: 0.01
+        Pitch: 1.56
+        Target Frame: world
+        Value: Orbit (rviz_default_plugins)
+        Yaw: 1.5708
+      - Class: rviz_default_plugins/Orbit
+        Distance: 2.3
+        Focal Point:
+          X: 0.0
+          Y: -0.15
+          Z: 0.45
+        Focal Shape Size: 0.05
+        Name: "Isometric 3D Workcell"
+        Near Clip Distance: 0.01
+        Pitch: 0.65
+        Target Frame: world
+        Value: Orbit (rviz_default_plugins)
+        Yaw: 1.5708

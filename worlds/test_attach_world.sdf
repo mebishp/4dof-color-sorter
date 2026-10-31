@@ -1,0 +1,61 @@
+<?xml version="1.0" ?>
+<sdf version="1.8">
+  <world name="test_attach_world">
+    <physics name="1ms" type="ignored">
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+    </physics>
+    <plugin filename="ignition-gazebo-physics-system" name="ignition::gazebo::systems::Physics"/>
+    <plugin filename="ignition-gazebo-scene-broadcaster-system" name="ignition::gazebo::systems::SceneBroadcaster"/>
+    <plugin filename="ignition-gazebo-user-commands-system" name="ignition::gazebo::systems::UserCommands"/>
+
+    <model name="ground_plane">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision"><geometry><plane><normal>0 0 1</normal><size>10 10</size></plane></geometry></collision>
+        <visual name="visual"><geometry><plane><normal>0 0 1</normal><size>10 10</size></plane></geometry></visual>
+      </link>
+    </model>
+
+    <!-- Test box -->
+    <model name="test_box">
+      <pose>0 0 0.06 0 0 0</pose>
+      <link name="link">
+        <inertial>
+          <mass>0.2</mass>
+          <inertia><ixx>0.00048</ixx><iyy>0.00048</iyy><izz>0.00048</izz></inertia>
+        </inertial>
+        <collision name="col"><geometry><box><size>0.12 0.12 0.12</size></box></geometry></collision>
+        <visual name="vis"><geometry><box><size>0.12 0.12 0.12</size></box></geometry></visual>
+      </link>
+    </model>
+
+    <!-- Gripper test model -->
+    <model name="gripper_test">
+      <pose>0 0 0.5 0 0 0</pose>
+      <link name="magnet_link">
+        <inertial>
+          <mass>1.0</mass>
+          <inertia><ixx>0.01</ixx><iyy>0.01</iyy><izz>0.01</izz></inertia>
+        </inertial>
+        <visual name="vis"><geometry><box><size>0.1 0.1 0.05</size></box></geometry></visual>
+        <collision name="col"><geometry><box><size>0.1 0.1 0.05</size></box></geometry></collision>
+      </link>
+
+      <joint name="world_fixed" type="fixed">
+        <parent>world</parent>
+        <child>magnet_link</child>
+      </joint>
+
+      <plugin filename="ignition-gazebo-detachable-joint-system"
+              name="ignition::gazebo::systems::DetachableJoint">
+        <parent_link>magnet_link</parent_link>
+        <child_model>test_box</child_model>
+        <child_link>link</child_link>
+        <detach_topic>/test_detach</detach_topic>
+        <attach_topic>/test_attach</attach_topic>
+        <output_topic>/test_state</output_topic>
+      </plugin>
+    </model>
+  </world>
+</sdf>

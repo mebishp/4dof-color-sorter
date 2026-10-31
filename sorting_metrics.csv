@@ -1,0 +1,13 @@
+color,status,material,pick_pos,drop_pos,cycle_time_sec,attempts,final_pos,verified
+blue_2,SORTED_SUCCESS,Ferromagnetic Nickel-plated Iron,"(0.075,-0.140,0.510)","(0.710,-0.420,0.585)",7.23,1,"(0.711,-0.420,0.520)",True
+green_1,SORTED_SUCCESS,Ferromagnetic Spring Steel,"(0.397,0.140,0.510)","(0.705,-0.140,0.585)",8.33,1,"(0.703,-0.142,0.520)",True
+yellow_2,SORTED_SUCCESS,Ferromagnetic Brass-plated Steel,"(0.240,0.141,0.510)","(-0.720,-0.420,0.585)",9.25,1,"(-0.716,-0.419,0.520)",True
+yellow_1,SORTED_SUCCESS,Ferromagnetic Brass-plated Steel,"(-0.166,-0.006,0.510)","(-0.550,-0.420,0.585)",8.36,1,"(-0.547,-0.417,0.520)",True
+blue_1,SORTED_SUCCESS,Ferromagnetic Nickel-plated Iron,"(-0.084,-0.140,0.510)","(0.560,-0.420,0.585)",8.02,1,"(0.560,-0.424,0.520)",True
+red_1,SORTED_SUCCESS,Ferromagnetic Carbon Steel,"(0.155,0.004,0.510)","(-0.710,-0.140,0.585)",8.52,1,"(-0.708,-0.140,0.520)",True
+yellow_3,SORTED_SUCCESS,Ferromagnetic Brass-plated Steel,"(-0.243,0.141,0.510)","(-0.716,-0.419,0.705)",7.55,1,"(-0.711,-0.419,0.640)",True
+blue_3,SORTED_SUCCESS,Ferromagnetic Nickel-plated Iron,"(-0.084,0.140,0.510)","(0.711,-0.420,0.705)",8.8,1,"(0.711,-0.420,0.640)",True
+green_3,SORTED_SUCCESS,Ferromagnetic Spring Steel,"(0.080,0.141,0.510)","(0.530,-0.140,0.585)",8.44,1,"(0.527,-0.143,0.520)",True
+red_2,SORTED_SUCCESS,Ferromagnetic Carbon Steel,"(0.155,0.274,0.510)","(-0.565,-0.140,0.585)",8.43,1,"(-0.561,-0.142,0.520)",True
+red_3,SORTED_SUCCESS,Ferromagnetic Carbon Steel,"(-0.165,0.278,0.510)","(-0.708,-0.140,0.705)",7.5,1,"(-0.708,-0.140,0.640)",True
+green_2,SORTED_SUCCESS,Ferromagnetic Spring Steel,"(-0.007,0.280,0.510)","(0.703,-0.142,0.705)",8.02,1,"(0.700,-0.145,0.640)",True
